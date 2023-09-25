@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>数字当てゲーム</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="style.css"> <!-- スタイルシートのリンクを追加 -->
+
+    <style>
+        /* スタイルはstyle.cssファイルに分離しました */
+    </style>
+</head>
+<body>
+    <h1>数字当てゲーム</h1>
+    <p>0から1000の間の数字を当ててください。</p>
+    
+    <div id="top">0~1000の間でランダムに生成された数字を当ててください。</div>
+    <!-- ラベルのセマンティクスを改善 -->
+    <div>
+        <label for="text">入力された数字</label>
+        <div id="history"></div>
+    </div>
+    
+    <div>
+        <div id="status">数字を入力してください。</div>
+        <br>
+        <input type="text" id="text"/>
+        <button id="button">Go</button>
+    </div>
+    
+    <script src="jQuery.js"></script> <!-- jQueryライブラリをローカルファイルから読み込む -->
+
+    <script>
+        // 正解の数字をランダムで生成
+        let ans = Math.floor(Math.random() * 1001);
+
+        // 入力欄にフォーカスを当てる
+        document.getElementById("text").focus();
+
+        // ボタン押下時の処理
+        document.getElementById("button").addEventListener("click", function(){
+            let curVal = document.getElementById("text").value;
+            if (curVal != ""){
+                if (!isNaN(curVal)){
+                    // 数字が入力されている場合
+                    let val = Number(curVal);
+                    if (ans > val){
+                        // 入力された値が正解より小さい場合
+                        document.getElementById("history").innerHTML += "<div>" + val + "  小さいです。</div>";
+                    }
+                    else if (ans < val){
+                        // 入力された値が正解より大きい場合
+                        document.getElementById("history").innerHTML += "<div>" + val + "  大きいです。</div>";
+                    }
+                    else{
+                        // 入力された値が正解の場合
+                        document.getElementById("history").innerHTML += "<div>" + val + "  正解です！</div>";
+                    }
+                    document.getElementById("status").textContent = "数字を入力してください.";
+                    document.getElementById("status").style.color = "black";
+                }
+                else{
+                    // 数字以外が入力された場合
+                    document.getElementById("status").textContent = "数字以外が入力されました。数字を入力してください。";
+                    document.getElementById("status").style.color = "red";
+                }
+            }
+            else{
+                // 何も入力されていない場合
+                document.getElementById("status").textContent = "入力してください。";
+                document.getElementById("status").style.color = "red";
+            }
+            // 入力欄をクリア
+            document.getElementById("text").value = "";
+            // 入力欄にフォーカスを当てる
+            document.getElementById("text").focus();
+        });
+    </script>
+</body>
+</html>
+
